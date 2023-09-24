@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "941596549900",
+    "project_id": "green-route-50fe4",
+    "storage_bucket": "green-route-50fe4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941596549900:android:fe724c8ba94fe73790df29",
+        "android_client_info": {
+          "package_name": "com.turanozt.green_route"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941596549900-b4dakli3badkmot7fb5l6e7e8s17nbpj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlZ6ZeSS-jZEIN7B0y0899-4vLW6bsa34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941596549900-b4dakli3badkmot7fb5l6e7e8s17nbpj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
