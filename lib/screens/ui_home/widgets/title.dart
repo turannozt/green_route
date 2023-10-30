@@ -20,7 +20,7 @@ class TitleWidget extends StatelessWidget {
             FadeAnimatedText('Meet New  PEOPLE!!!'),
           ],
           onTap: () {
-            print("Tap Event");
+            debugPrint("Tap Event");
           },
         ),
       ),

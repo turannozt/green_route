@@ -1,36 +1,26 @@
-import 'dart:developer';
-import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:green_route/screens/ui_profile/profile_screen.dart';
+// ignore_for_file: library_private_types_in_public_api
 
-import '../screens/ui_home/home/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:green_route/screens/activity_add.dart';
+import 'package:green_route/screens/ui_home/home/home_screen.dart';
+import 'package:green_route/screens/ui_profile/profile_screen.dart';
+import 'package:line_icons/line_icons.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
 
   @override
-  State<MobileScreenLayout> createState() => _MobileScreenLayoutState();
+  _MobileScreenLayoutState createState() => _MobileScreenLayoutState();
 }
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
-  /// Controller to handle PageView and also handles initial page
-  final _pageController = PageController(initialPage: 0);
-
-  /// Controller to handle bottom nav bar and also handles initial page
-  final _controller = NotchBottomBarController(index: 0);
-
-  int maxCount = 4;
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  /// widget list
-  final List<Widget> bottomBarPages = [
-    const HomeScreen(),
-    const ProfileScreen(),
+  int _selectedIndex = 0;
+  final PageController _pageController = PageController();
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    AddActivityPage(),
+    ProfileScreen()
   ];
 
   @override
@@ -38,79 +28,91 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: List.generate(
-            bottomBarPages.length, (index) => bottomBarPages[index]),
+        children: _widgetOptions,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
-      extendBody: true,
-      bottomNavigationBar: (bottomBarPages.length <= maxCount)
-          ? AnimatedNotchBottomBar(
-              /// Provide NotchBottomBarController
-              notchBottomBarController: _controller,
-              color: const Color(0xFF424242),
-              showLabel: false,
-              notchColor: const Color(0xFF424242),
-
-              /// restart app if you change removeMargins
-              removeMargins: false,
-              bottomBarWidth: 500,
-              durationInMilliSeconds: 300,
-              bottomBarItems: const [
-                BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.home_filled,
-                    color: Colors.grey,
-                  ),
-                  activeItem: Icon(
-                    Icons.home_filled,
-                    color: Colors.white,
-                  ),
-                  itemLabel: 'Page 1',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              color: Colors.black.withOpacity(.1),
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            child: GNav(
+              rippleColor: Colors.grey[300]!,
+              hoverColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey[700]!
+                  : Colors.grey[100]!,
+              gap: 8,
+              activeColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.blueGrey
+                  : Colors.indigo,
+              iconSize: 24,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: const Duration(milliseconds: 400),
+              tabBackgroundColor:
+                  Theme.of(context).brightness == Brightness.dark
+                      ? Colors.grey[800]!
+                      : Colors.grey[100]!,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
+              tabs: [
+                GButton(
+                  icon: LineIcons.home,
+                  text: 'Home',
+                  textColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
-
-                ///svg example
-                BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                  ),
-                  activeItem: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                  itemLabel: 'Page 2',
+                GButton(
+                  icon: LineIcons.fileUpload,
+                  text: 'Upload',
+                  textColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
-                BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.star,
-                    color: Colors.grey,
-                  ),
-                  activeItem: Icon(
-                    Icons.star,
-                    color: Colors.white,
-                  ),
-                  itemLabel: 'Page 3',
+                GButton(
+                  icon: LineIcons.star,
+                  text: 'Favorite',
+                  textColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
-
-                BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.person,
-                    color: Colors.grey,
-                  ),
-                  activeItem: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                  ),
-                  itemLabel: 'Page 4',
+                GButton(
+                  icon: LineIcons.user,
+                  text: 'Profile',
+                  textColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
               ],
-              onTap: (index) {
-                /// perform action on tab change and to update pages you can update pages without pages
-                log('current selected index $index');
-                _pageController.jumpToPage(index);
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                  _pageController.animateToPage(index,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease);
+                });
               },
-            )
-          : null,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

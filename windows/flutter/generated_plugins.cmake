@@ -5,6 +5,8 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   firebase_core
+  flutter_localization
+  permission_handler_windows
   smart_auth
 )
 

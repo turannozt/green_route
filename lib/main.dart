@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import 'provider/auth_provider.dart';
 import 'provider/theme_provider.dart';
 import 'responsive/mobile_screen_layout.dart';
-import 'responsive/responsive_layout.dart';
-import 'responsive/web_screen_layout.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,27 +44,19 @@ class MyApp extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.active) {
-                // Checking if the snapshot has any data or not
                 if (snapshot.hasData) {
-                  // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
-                  return const ResponsiveLayout(
-                    mobileScreenLayout: MobileScreenLayout(),
-                    webScreenLayout: WebScreenLayout(),
-                  );
+                  return const MobileScreenLayout();
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text('${snapshot.error}'),
                   );
                 }
               }
-
-              // means connection to future hasnt been made yet
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
-
               return const WelcomeScreen();
             },
           ),

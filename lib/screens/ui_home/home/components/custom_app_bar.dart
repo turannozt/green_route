@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../utils/constants.dart';
 
@@ -7,53 +8,27 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Padding(
       padding: const EdgeInsets.only(
         left: appPadding,
         right: appPadding,
-        top: appPadding * 5,
+        top: appPadding * 4,
       ),
       child: SizedBox(
-        height: size.height * 0.18,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   'Green Route',
-                  style: TextStyle(fontSize: 24),
+                  style: GoogleFonts.openSans(
+                      fontSize: 24, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Ad Soyad',
-                  style: TextStyle(
-                    //color: black,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                const Text(
-                  'Hoşgeldin! Etkinliklere Katıl !',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-            const Divider(),
           ],
         ),
       ),

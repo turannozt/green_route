@@ -1,130 +1,153 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../data/data.dart';
-import '../../../../model/house.dart';
+import '../../../../model/activity.dart';
 import '../../../../utils/constants.dart';
-import '../../details/details_screen.dart';
 
 class ActivityCards extends StatefulWidget {
-  const ActivityCards({super.key});
+  const ActivityCards({Key? key}) : super(key: key);
 
   @override
   _ActivityCardsState createState() => _ActivityCardsState();
 }
 
 class _ActivityCardsState extends State<ActivityCards> {
-  Widget _buildHouse(BuildContext context, int index) {
-    Size size = MediaQuery.of(context).size;
-    House house = houseList[index];
+  late GoogleMapController mapController;
+  late CameraPosition initialCameraPosition;
+  late Set<Marker> markers;
+  late Set<int> likedIndexes;
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => DetailsScreen(house: house),
+  @override
+  void initState() {
+    super.initState();
+    markers = <Marker>{};
+    likedIndexes = <int>{};
+  }
+
+  Widget _buildMapPreview(double latitude, double longitude, int index) {
+    bool isLiked = likedIndexes.contains(index);
+
+    return SizedBox(
+      height: 180,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: _buildMap(latitude, longitude),
           ),
-        );
+          Positioned(
+            top: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (isLiked) {
+                    likedIndexes.remove(index);
+                  } else {
+                    likedIndexes.add(index);
+                  }
+                });
+              },
+              child: Icon(
+                Icons.favorite,
+                color: isLiked ? Colors.red : Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  GoogleMap _buildMap(double latitude, double longitude) {
+    return GoogleMap(
+      onMapCreated: (GoogleMapController controller) {
+        mapController = controller;
+        setState(() {
+          markers.add(
+            Marker(
+              markerId: const MarkerId('activity_location'),
+              position: LatLng(latitude, longitude),
+            ),
+          );
+        });
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: appPadding, vertical: appPadding / 2),
-        child: SizedBox(
-          height: 250,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image(
-                      height: 180,
-                      width: size.width,
-                      fit: BoxFit.cover,
-                      image: AssetImage(house.imageUrl),
-                    ),
+      initialCameraPosition: CameraPosition(
+        target: LatLng(latitude, longitude),
+        zoom: 15,
+      ),
+      markers: markers,
+    );
+  }
+
+  Widget _buildActivity(BuildContext context, int index) {
+    Activity activity = activityList[index];
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: appPadding,
+        vertical: appPadding / 2,
+      ),
+      child: SizedBox(
+        height: 250,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildMapPreview(activity.latitude, activity.longitude, index),
+            Row(
+              children: [
+                Text(
+                  activity.price == 0
+                      ? 'Free'
+                      : '\$${activity.price.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Positioned(
-                    right: appPadding / 2,
-                    top: appPadding / 2,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: IconButton(
-                        icon: house.isFav
-                            ? const Icon(
-                                Icons.favorite_rounded,
-                                color: red,
-                              )
-                            : const Icon(
-                                Icons.favorite_border_rounded,
-                                color: black,
-                              ),
-                        onPressed: () {
-                          setState(() {
-                            house.isFav = !house.isFav;
-                          });
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    '\$${house.price.toStringAsFixed(3)}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      house.address,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    '${house.bedRooms} Katılım Ücretsiz / ',
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Text(
+                    "${activity.latitude}, ${activity.longitude}",
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 15,
-                      fontWeight: FontWeight.w600,
+                      color: Colors.grey,
                     ),
                   ),
-                  Text(
-                    '${house.bathRooms} Detaylar İçin / ',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  'Start: ${activity.startDate} ',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
                   ),
-                  Text(
-                    '${house.sqFeet} Tıkla',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
+                ),
+                Text(
+                  'End: ${activity.endDate} ',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
                   ),
-                ],
-              )
-            ],
-          ),
+                ),
+                Text(
+                  'Capacity: ${activity.capacity}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -135,9 +158,9 @@ class _ActivityCardsState extends State<ActivityCards> {
     return Expanded(
       child: ListView.builder(
         physics: const BouncingScrollPhysics(),
-        itemCount: houseList.length,
+        itemCount: activityList.length,
         itemBuilder: (context, index) {
-          return _buildHouse(context, index);
+          return _buildActivity(context, index);
         },
       ),
     );

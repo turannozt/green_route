@@ -1,8 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-
-import '../../../../data/data.dart';
+import 'package:green_route/model/category.dart';
 import '../../../../utils/constants.dart';
 
 class Categories extends StatefulWidget {
@@ -34,7 +33,7 @@ class _CategoriesState extends State<Categories> {
           ),
           child: Center(
             child: Text(
-              categoryList[index],
+              categories[index] as String,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: selectedCategoryIndex == index
@@ -63,7 +62,7 @@ class _CategoriesState extends State<Categories> {
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          itemCount: categoryList.length,
+          itemCount: categories.length,
           itemBuilder: (context, index) {
             return _buildCategory(context, index);
           },

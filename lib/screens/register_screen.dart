@@ -5,7 +5,6 @@ import 'package:green_route/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
 import '../widgets/custom_button.dart';
-import 'activity_add.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -147,16 +146,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                   ),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AddActivityPage(),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.abc))
                 ],
               ),
             ),

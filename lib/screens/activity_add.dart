@@ -36,6 +36,7 @@ class _AddActivityPageState extends State<AddActivityPage> {
   String _startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
   int _selectedColor = 0;
   bool _isLoading = false; // İlerleme göstergesini kontrol edecek değişken
+
   @override
   void initState() {
     super.initState();
@@ -89,10 +90,10 @@ class _AddActivityPageState extends State<AddActivityPage> {
               MyInputField(
                 title: 'Activity Location',
                 hint: widget.longitude != null
-                    ? 'Location: ${widget.latitude.toStringAsFixed(2)}, ${widget.latitude.toStringAsFixed(2)}'
+                    ? 'Location: ${widget.latitude.toStringAsFixed(2)}, ${widget.longitude.toStringAsFixed(2)}'
                     : "Enter Your Location",
                 type: TextInputType.text,
-                controller: _descriptionController,
+                controller: _locationController,
                 widget: IconButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -245,16 +246,12 @@ class _AddActivityPageState extends State<AddActivityPage> {
 
   _appBar(BuildContext context) {
     return AppBar(
-      elevation: 0,
-      leading: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: const Icon(
-          Icons.arrow_back_ios_new_outlined,
-          // color: Get.isDarkMode ? Colors.white : Colors.black,
-        ),
+      leading: IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: const Icon(Icons.arrow_back_ios),
       ),
+      elevation: 0,
+      centerTitle: true,
       title: Text(
         'Activity Add',
         style: TextStil.titleHead2,
@@ -334,19 +331,19 @@ class _AddActivityPageState extends State<AddActivityPage> {
 
   void _saveActivity() async {
     Activity newActivity = Activity(
+      isLiked: [],
       price: 10.00,
       capacity: 10,
       imageUrl: '',
       title: _titleController.text,
       description: _descriptionController.text,
-      location: _locationController.text,
       startDate: DateFormat.yMd().format(_selectedStartDate),
       endDate: DateFormat.yMd().format(_selectedEndDate),
       startTime: _startTime,
-
       endTime: _endTime,
-      uid:
-          getCurrentUserUid(), // Kullanıcı kimlik bilgilerini eklemeyi unutmayın
+      uid: getCurrentUserUid(),
+      latitude: widget.latitude, // Add latitude
+      longitude: widget.longitude, // Add longitude
     );
 
     setState(() {

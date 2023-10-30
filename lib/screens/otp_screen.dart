@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_route/provider/theme_provider.dart';
 import 'package:green_route/responsive/mobile_screen_layout.dart';
-import 'package:green_route/responsive/responsive_layout.dart';
-import 'package:green_route/responsive/web_screen_layout.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
@@ -171,11 +169,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const ResponsiveLayout(
-                                        mobileScreenLayout:
-                                            MobileScreenLayout(),
-                                        webScreenLayout: WebScreenLayout(),
-                                      ),
+                                          const MobileScreenLayout(),
                                     ),
                                     (route) => false),
                               ),

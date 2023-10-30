@@ -1,12 +1,12 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
-import '../../../../model/house.dart';
+import '../../../../model/activity.dart';
 import '../../../../utils/constants.dart';
 
 class HouseDetails extends StatefulWidget {
-  final House house;
+  final Activity activity;
 
-  const HouseDetails(this.house, {super.key});
+  const HouseDetails(this.activity, {Key? key});
 
   @override
   _HouseDetailsState createState() => _HouseDetailsState();
@@ -33,9 +33,9 @@ class _HouseDetailsState extends State<HouseDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 5),
-                    const Text(
-                      'Activity Name',
-                      style: TextStyle(
+                    Text(
+                      widget.activity.title,
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -44,10 +44,10 @@ class _HouseDetailsState extends State<HouseDetails> {
                       height: 5,
                     ),
                     Text(
-                      widget.house.address,
+                      "${widget.activity.latitude}, ${widget.activity.longitude}",
                       style: TextStyle(
                         fontSize: 15,
-                        color: black.withOpacity(0.4),
+                        color: Colors.black.withOpacity(0.4),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -56,7 +56,7 @@ class _HouseDetailsState extends State<HouseDetails> {
                 Column(
                   children: [
                     Text(
-                      '${widget.house.time} hours ago',
+                      '${widget.activity} hours ago',
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class _HouseDetailsState extends State<HouseDetails> {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      '\$${widget.house.price.toStringAsFixed(3)}',
+                      '\$${widget.activity.price.toStringAsFixed(2)}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -78,7 +78,7 @@ class _HouseDetailsState extends State<HouseDetails> {
           const Padding(
             padding: EdgeInsets.only(left: appPadding, bottom: appPadding),
             child: Text(
-              'Activity information',
+              'Activity Information',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -92,9 +92,9 @@ class _HouseDetailsState extends State<HouseDetails> {
               bottom: appPadding * 4,
             ),
             child: Text(
-              widget.house.description,
+              widget.activity.description,
               style: TextStyle(
-                color: black.withOpacity(0.4),
+                color: Colors.black.withOpacity(0.4),
                 height: 1.5,
               ),
             ),
