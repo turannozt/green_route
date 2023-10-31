@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, use_build_context_synchronously, duplicate_ignore
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:green_route/provider/theme_provider.dart';
 import 'package:green_route/widgets/custom_button.dart';
 import 'package:green_route/widgets/map_widget.dart';
@@ -12,6 +13,7 @@ import 'package:intl/intl.dart';
 import '../model/activity.dart';
 import '../utils/constants.dart';
 import '../widgets/input_field.dart';
+import 'ui_home/home/home_screen.dart';
 
 class AddActivityPage extends StatefulWidget {
   final latitude;
@@ -211,34 +213,37 @@ class _AddActivityPageState extends State<AddActivityPage> {
         ),
         const SizedBox(height: 8.0),
         Wrap(
-          children: List<Widget>.generate(3, (index) {
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  _selectedColor = index;
-                  //   print(index);
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: CircleAvatar(
-                  radius: 14,
-                  backgroundColor: index == 0
-                      ? kprimaryColor
-                      : index == 1
-                          ? ksecondryColor
-                          : Colors.yellow,
-                  child: _selectedColor == index
-                      ? const Icon(
-                          Icons.done,
-                          color: Colors.white,
-                          size: 16,
-                        )
-                      : Container(),
+          children: List<Widget>.generate(
+            3,
+            (index) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedColor = index;
+                    //   print(index);
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: CircleAvatar(
+                    radius: 14,
+                    backgroundColor: index == 0
+                        ? kprimaryColor
+                        : index == 1
+                            ? ksecondryColor
+                            : Colors.yellow,
+                    child: _selectedColor == index
+                        ? const Icon(
+                            Icons.done,
+                            color: Colors.white,
+                            size: 16,
+                          )
+                        : Container(),
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            },
+          ),
         )
       ],
     );
@@ -246,15 +251,11 @@ class _AddActivityPageState extends State<AddActivityPage> {
 
   _appBar(BuildContext context) {
     return AppBar(
-      leading: IconButton(
-        onPressed: () => Navigator.pop(context),
-        icon: const Icon(Icons.arrow_back_ios),
-      ),
       elevation: 0,
       centerTitle: true,
       title: Text(
         'Activity Add',
-        style: TextStil.titleHead2,
+        style: GoogleFonts.openSans(fontSize: 22, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -361,12 +362,16 @@ class _AddActivityPageState extends State<AddActivityPage> {
       await firestore.collection('activities').add(newActivity.toMap());
 
       // Veriler başarıyla kaydedildiğinde kullanıcıya geribildirim gösterebilirsiniz.
-      debugPrint('Veriler veritabanına kaydedildi.');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Activity has been successfully created.'),
+        ),
+      );
 
       // Başka bir sayfaya yönlendirebilirsiniz, örneğin:
-      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-      //   builder: (context) => AnotherPage(),
-      // ));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      ));
     } catch (e) {
       debugPrint('Hata oluştu: $e');
       // Verilerin kaydedilmediğine dair bir hata mesajı gösterebilirsiniz.

@@ -28,7 +28,6 @@ class _ActivityCardsState extends State<ActivityCards> {
 
   Widget _buildMapPreview(double latitude, double longitude, int index) {
     bool isLiked = likedIndexes.contains(index);
-
     return SizedBox(
       height: 180,
       width: MediaQuery.of(context).size.width,
@@ -82,7 +81,6 @@ class _ActivityCardsState extends State<ActivityCards> {
       markers: markers,
     );
   }
-
   Widget _buildActivity(BuildContext context, int index) {
     Activity activity = activityList[index];
     return Padding(
@@ -152,7 +150,6 @@ class _ActivityCardsState extends State<ActivityCards> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Expanded(

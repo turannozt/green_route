@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:green_route/screens/activity_add.dart';
+import 'package:green_route/screens/ui_favorite/favorite/favorite_screen.dart';
 import 'package:green_route/screens/ui_home/home/home_screen.dart';
 import 'package:green_route/screens/ui_profile/profile_screen.dart';
 import 'package:line_icons/line_icons.dart';
@@ -20,6 +21,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     AddActivityPage(),
+    FavoriteScreen(),
     ProfileScreen()
   ];
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../model/setting.dart';
 import '../../widgets/change_theme_button_widget.dart';
 import '../../widgets/setting_tile.dart';
@@ -18,8 +19,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text(
+        title: Text(
           "Profile Screen",
+          style:
+              GoogleFonts.openSans(fontSize: 22, fontWeight: FontWeight.w500),
         ),
         actions: const [
           ChangeThemeButtonWidget(),

@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,7 +12,7 @@ import '../widgets/custom_button.dart';
 import 'ui_profile/profile_screen.dart';
 
 class UserInfromationScreen extends StatefulWidget {
-  const UserInfromationScreen({super.key});
+  const UserInfromationScreen({Key? key});
 
   @override
   State<UserInfromationScreen> createState() => _UserInfromationScreenState();
@@ -56,19 +58,15 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                     children: [
                       InkWell(
                         onTap: () => selectImage(),
-                        child: image == null
-                            ? const CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                radius: 50,
-                                child: Icon(
-                                  Icons.account_circle,
-                                  size: 50,
-                                ),
-                              )
-                            : CircleAvatar(
-                                backgroundImage: FileImage(image!),
-                                radius: 50,
-                              ),
+                        child: CircleAvatar(
+                          backgroundImage: image != null
+                              ? FileImage(image!)
+                              : Image.network(
+                                      'https://cdn3.iconfinder.com/data/icons/fluent-regular-24px-vol-5/24/ic_fluent_person_circle_24_regular-1024.png')
+                                  as ImageProvider,
+                          backgroundColor: Colors.transparent,
+                          radius: 50,
+                        ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
@@ -79,7 +77,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                           children: [
                             // name field
                             textFeld(
-                              hintText: "John Smith",
+                              hintText: "Green Route",
                               icon: Icons.account_circle,
                               inputType: TextInputType.name,
                               maxLines: 1,
@@ -88,7 +86,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
 
                             // email
                             textFeld(
-                              hintText: "abc@example.com",
+                              hintText: "info@greenroute.com",
                               icon: Icons.email,
                               inputType: TextInputType.emailAddress,
                               maxLines: 1,

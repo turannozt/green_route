@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../screens/activity_add.dart';
 
 class MapWidget extends StatefulWidget {
@@ -29,7 +28,7 @@ class _MapWidgetState extends State<MapWidget> {
       markerId: const MarkerId('selected_location'),
       position: _initialPosition.target,
       infoWindow: const InfoWindow(title: 'Seçilen Konum'),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
     );
     setState(() {});
   }
@@ -40,7 +39,7 @@ class _MapWidgetState extends State<MapWidget> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _createMap();
     });
-    _requestLocationPermission();
+
   }
 
   @override
@@ -160,41 +159,7 @@ class _MapWidgetState extends State<MapWidget> {
     }
   }
 
-  void _requestLocationPermission() async {
-    var status = await Permission.location.request();
-    if (status.isGranted) {
-      // Kullanıcı izin verdiyse, harita sayfasını göster
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MapWidget(),
-        ),
-      );
-    } else if (status.isDenied) {
-      // Kullanıcı izni reddetti, bir uyarı gösterilebilir
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Konum İzni Reddedildi'),
-            content: const Text(
-                'Uygulamanın konum hizmetlerini kullanabilmesi için konum iznine ihtiyacı vardır.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Tamam'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } else if (status.isPermanentlyDenied) {
-      // Kullanıcı izni kalıcı olarak reddetti, yönlendirme yapılabilir
-      openAppSettings();
-    }
-  }
+
 
   void _searchLocation() async {
     String query = searchController.text;
