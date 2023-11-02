@@ -12,8 +12,14 @@ class ChangeThemeButtonWidget extends StatelessWidget {
 
     return IconButton(
       icon: themeProvider.isDarkMode
-          ? const Icon(Icons.wb_sunny) // Aydınlık tema için güneş simgesi
-          : const Icon(Icons.nightlight_round), // Karanlık tema için ay simgesi
+          ? const Icon(
+              Icons.wb_sunny,
+              color: Colors.white,
+            ) // Aydınlık tema için güneş simgesi
+          : Icon(
+              Icons.nightlight_round,
+              color: Colors.blueAccent.withOpacity(0.0),
+            ), // Karanlık tema için ay simgesi
       onPressed: () {
         final provider = Provider.of<ThemeProvider>(context, listen: false);
         provider.toggleTheme(!themeProvider.isDarkMode);

@@ -17,18 +17,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(
-          "Profile Screen",
-          style:
-              GoogleFonts.openSans(fontSize: 22, fontWeight: FontWeight.w500),
-        ),
-        actions: const [
-          ChangeThemeButtonWidget(),
-        ],
-        centerTitle: true,
-      ),
+      appBar: appBar(context, Theme.of(context).brightness),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: Center(
@@ -63,6 +52,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar appBar(BuildContext context, Brightness brightness) {
+    Color backgroundColor = brightness == Brightness.dark
+        ? Colors.black.withOpacity(0.0)
+        : Colors.white;
+
+    Color textColor =
+        brightness == Brightness.dark ? Colors.white : Colors.black;
+
+    return AppBar(
+      actions: const [
+        ChangeThemeButtonWidget(),
+      ],
+      backgroundColor: backgroundColor,
+      title: Text(
+        'Profile Screen',
+        style: GoogleFonts.openSans(
+            color: textColor, fontSize: 20, fontWeight: FontWeight.w600),
+      ),
+      //backgroundColor: Colors.white,
+      elevation: 0.0,
+      centerTitle: true,
     );
   }
 }

@@ -47,8 +47,7 @@ class _AddActivityPageState extends State<AddActivityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: context.theme.colorScheme.background,
-      appBar: _appBar(context),
+      appBar: appBar(context, Theme.of(context).brightness),
       body: Container(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: SingleChildScrollView(
@@ -249,14 +248,24 @@ class _AddActivityPageState extends State<AddActivityPage> {
     );
   }
 
-  _appBar(BuildContext context) {
+  AppBar appBar(BuildContext context, Brightness brightness) {
+    Color backgroundColor = brightness == Brightness.dark
+        ? Colors.black.withOpacity(0.0)
+        : Colors.white;
+
+    Color textColor =
+        brightness == Brightness.dark ? Colors.white : Colors.black;
+
     return AppBar(
-      elevation: 0,
-      centerTitle: true,
+      backgroundColor: backgroundColor,
       title: Text(
         'Activity Add',
-        style: GoogleFonts.openSans(fontSize: 22, fontWeight: FontWeight.w500),
+        style: GoogleFonts.openSans(
+            color: textColor, fontSize: 20, fontWeight: FontWeight.w600),
       ),
+      //backgroundColor: Colors.white,
+      elevation: 0.0,
+      centerTitle: true,
     );
   }
 

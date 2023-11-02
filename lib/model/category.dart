@@ -1,47 +1,39 @@
 import 'package:flutter/material.dart';
 
-class Category {
-  final int categoryId;
-  final String name;
-  final IconData icon;
+class CategoryModel {
+  String name;
+  String iconPath;
+  Color boxColor;
 
-  Category({required this.categoryId, required this.name, required this.icon});
+  CategoryModel({
+    required this.name,
+    required this.iconPath,
+    required this.boxColor,
+  });
+
+  static List<CategoryModel> getCategories() {
+    List<CategoryModel> categories = [];
+
+    categories.add(CategoryModel(
+        name: 'Party',
+        iconPath: 'assets/icons/plate.svg',
+        boxColor: const Color(0xff9DCEFF)));
+
+    categories.add(CategoryModel(
+        name: 'Sport',
+        iconPath: 'assets/icons/pancakes.svg',
+        boxColor: const Color(0xffEEA4CE)));
+
+    categories.add(CategoryModel(
+        name: 'Walking',
+        iconPath: 'assets/icons/pie.svg',
+        boxColor: const Color(0xff9DCEFF)));
+
+    categories.add(CategoryModel(
+        name: 'Developers',
+        iconPath: 'assets/icons/orange-snacks.svg',
+        boxColor: const Color(0xffEEA4CE)));
+
+    return categories;
+  }
 }
-
-final allCategory = Category(
-  categoryId: 0,
-  name: "All",
-  icon: Icons.search,
-);
-
-final musicCategory = Category(
-  categoryId: 1,
-  name: "Music",
-  icon: Icons.music_note,
-);
-
-final meetUpCategory = Category(
-  categoryId: 2,
-  name: "Meetup",
-  icon: Icons.location_on,
-);
-
-final golfCategory = Category(
-  categoryId: 3,
-  name: "Golf",
-  icon: Icons.golf_course,
-);
-
-final birthdayCategory = Category(
-  categoryId: 4,
-  name: "Birthday",
-  icon: Icons.cake,
-);
-
-final categories = [
-  allCategory,
-  musicCategory,
-  meetUpCategory,
-  golfCategory,
-  birthdayCategory,
-];
