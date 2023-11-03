@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../model/category.dart';
+import 'package:green_route/screens/ui_home/home/components/activity_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,16 +11,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<CategoryModel> categories = [];
-  void _getInitialInfo() {
-    categories = CategoryModel.getCategories();
-    //diets = DietModel.getDiets();
-    // popularDiets = PopularDietsModel.getPopularDiets();
-  }
-
+  var category = [
+    "Sport",
+    "Party",
+    "Traking",
+    "Developers",
+    "Activity",
+    "Comunities"
+  ];
   @override
   Widget build(BuildContext context) {
-    _getInitialInfo();
     return Scaffold(
       appBar: appBar(context, Theme.of(context).brightness),
       body: Column(
@@ -29,8 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _searchField(),
           const SizedBox(height: 10),
           _categoriesSection(),
-          const SizedBox(height: 10),
-          //const ActivityCards(),
+          const ActivityScreen(),
         ],
       ),
     );
@@ -57,66 +56,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Column _categoriesSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: Text(
-            'Category',
-            style:
-                GoogleFonts.openSans(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        SizedBox(
-          height: 60,
-          child: ListView.separated(
-            itemCount: categories.length,
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            separatorBuilder: (context, index) => const SizedBox(
-              width: 25,
-            ),
-            itemBuilder: (context, index) {
-              return Container(
-                width: 95,
+  SingleChildScrollView _categoriesSection() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: [
+            for (int i = 0; i < 6; i++)
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: categories[index].boxColor.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(16)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.5),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(categories[index].iconPath),
-                      ),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 4,
                     ),
-                    Text(
-                      categories[index].name,
-                      style: GoogleFonts.openSans(
-                          fontWeight: FontWeight.w500,
-                          // color: Colors.black,
-                          fontSize: 12,
-                          letterSpacing: 0.5),
-                    )
                   ],
                 ),
-              );
-            },
-          ),
-        )
-      ],
+                child: Text(
+                  category[i],
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../provider/theme_provider.dart';
 
 class ChangeThemeButtonWidget extends StatelessWidget {
-  const ChangeThemeButtonWidget({super.key});
+  const ChangeThemeButtonWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +14,14 @@ class ChangeThemeButtonWidget extends StatelessWidget {
       icon: themeProvider.isDarkMode
           ? const Icon(
               Icons.wb_sunny,
-              color: Colors.white,
-            ) // Aydınlık tema için güneş simgesi
-          : Icon(
+              color: Colors
+                  .white, // Değişen kısım, dark mode için güneş simgesi rengi
+            )
+          : const Icon(
               Icons.nightlight_round,
-              color: Colors.blueAccent.withOpacity(0.0),
-            ), // Karanlık tema için ay simgesi
+              color: Colors
+                  .black, // Değişen kısım, light mode için ay simgesi rengi
+            ),
       onPressed: () {
         final provider = Provider.of<ThemeProvider>(context, listen: false);
         provider.toggleTheme(!themeProvider.isDarkMode);
