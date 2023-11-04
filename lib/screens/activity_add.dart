@@ -5,13 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:green_route/provider/theme_provider.dart';
 import 'package:green_route/widgets/custom_button.dart';
 import 'package:green_route/widgets/map_widget.dart';
 import 'package:intl/intl.dart';
-
 import '../model/activity.dart';
-import '../utils/constants.dart';
 import '../widgets/input_field.dart';
 import 'ui_home/home/home_screen.dart';
 
@@ -30,13 +27,12 @@ class _AddActivityPageState extends State<AddActivityPage> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _capacityController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
-
   final TextEditingController _locationController = TextEditingController();
+  int _selectedCategory = 0;
   DateTime _selectedStartDate = DateTime.now();
   DateTime _selectedEndDate = DateTime.now();
   String _endTime = "9:30 PM";
   String _startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
-  int _selectedColor = 0;
   bool _isLoading = false; // İlerleme göstergesini kontrol edecek değişken
 
   @override
@@ -185,7 +181,8 @@ class _AddActivityPageState extends State<AddActivityPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _colorPallete(),
+                  // _colorPallete(),
+                  _categoryWidget(),
                   _isLoading
                       ? const CircularProgressIndicator() // İlerleme göstergesi
                       : CustomButton(
@@ -202,42 +199,58 @@ class _AddActivityPageState extends State<AddActivityPage> {
     );
   }
 
-  _colorPallete() {
+  Widget _categoryWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Color',
-          style: TextStil.titleStyle,
+          'Category',
+          style: GoogleFonts.openSans(fontSize: 16
+              // Stilinizi burada tanımlayın
+              ),
         ),
         const SizedBox(height: 8.0),
         Wrap(
           children: List<Widget>.generate(
-            3,
+            5,
             (index) {
+              IconData categoryIcon;
+              if (index == 0) {
+                categoryIcon = Icons.sports; // Spor sembolü
+              } else if (index == 1) {
+                categoryIcon = Icons.party_mode; // Parti sembolü
+              } else if (index == 2) {
+                categoryIcon = Icons.person; // Yönlendirme sembolü
+              } else if (index == 3) {
+                categoryIcon = Icons.ac_unit;
+              } // Yönlendirme sembolü
+              else {
+                categoryIcon =
+                    Icons.track_changes_outlined; // Yönlendirme sembolü
+              }
+
               return GestureDetector(
                 onTap: () {
                   setState(() {
-                    _selectedColor = index;
-                    //   print(index);
+                    _selectedCategory = index;
                   });
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: CircleAvatar(
                     radius: 14,
-                    backgroundColor: index == 0
-                        ? kprimaryColor
-                        : index == 1
-                            ? ksecondryColor
-                            : Colors.yellow,
-                    child: _selectedColor == index
+                    backgroundColor: Colors.transparent,
+                    child: _selectedCategory == index
                         ? const Icon(
                             Icons.done,
-                            color: Colors.white,
-                            size: 16,
+                            color: Colors.indigo, // İstediğiniz renk
+                            // size: 16,
                           )
-                        : Container(),
+                        : Icon(
+                            categoryIcon,
+                            color: Colors.black, // İstediğiniz renk
+                            //size: 16,
+                          ),
                   ),
                 ),
               );
@@ -341,6 +354,7 @@ class _AddActivityPageState extends State<AddActivityPage> {
 
   void _saveActivity() async {
     Activity newActivity = Activity(
+      category: _selectedCategory,
       isLiked: [],
       price: 10.00,
       capacity: 10,

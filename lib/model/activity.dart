@@ -14,7 +14,9 @@ class Activity {
   double latitude;
   double longitude;
   final isLiked;
+  int category;
   Activity({
+    required this.category,
     required this.isLiked,
     required this.latitude,
     required this.longitude,
@@ -33,6 +35,7 @@ class Activity {
   // from map
   factory Activity.fromMap(Map<String, dynamic> map) {
     return Activity(
+      category: map['category'],
       isLiked: map['isLiked'],
       latitude: map['latitude'],
       longitude: map['longitude'],
@@ -52,6 +55,7 @@ class Activity {
   // to map
   Map<String, dynamic> toMap() {
     return {
+      "category": category,
       "isLiked": isLiked,
       "latitude": latitude,
       "longitude": longitude,

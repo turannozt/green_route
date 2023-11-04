@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
   var category = [
     "Sport",
     "Party",
-    "Traking",
     "Developers",
     "Activity",
     "Comunities"
@@ -63,26 +64,23 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
-                      color: Colors.black26,
+                      color: Colors.grey.shade700,
                       blurRadius: 4,
                     ),
                   ],
                 ),
                 child: Text(
                   category[i],
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
           ],
@@ -110,7 +108,10 @@ class _HomeScreenState extends State<HomeScreen> {
           hintStyle: GoogleFonts.openSans(fontSize: 14),
           prefixIcon: Padding(
             padding: const EdgeInsets.all(12),
-            child: SvgPicture.asset('assets/icons/Search.svg'),
+            child: SvgPicture.asset(
+              'assets/icons/Search.svg',
+              color: Colors.blueGrey.shade200,
+            ),
           ),
           suffixIcon: SizedBox(
             width: 100,

@@ -1,6 +1,7 @@
 import '../model/activity.dart';
 
 final _activity1 = Activity(
+  category: 3,
   isLiked: [],
   latitude: 1,
   longitude: 1,
@@ -19,6 +20,7 @@ final _activity1 = Activity(
 );
 
 final _activity2 = Activity(
+  category: 2,
   isLiked: [],
   latitude: 1,
   longitude: 1,
@@ -37,6 +39,7 @@ final _activity2 = Activity(
 );
 
 final _activity3 = Activity(
+  category: 1,
   isLiked: [],
   latitude: 1,
   longitude: 1,
