@@ -243,12 +243,12 @@ class _AddActivityPageState extends State<AddActivityPage> {
                     child: _selectedCategory == index
                         ? const Icon(
                             Icons.done,
-                            color: Colors.indigo, // İstediğiniz renk
+                            color: Colors.amber, // İstediğiniz renk
                             // size: 16,
                           )
                         : Icon(
                             categoryIcon,
-                            color: Colors.black, // İstediğiniz renk
+                            //color: Colors.black, // İstediğiniz renk
                             //size: 16,
                           ),
                   ),

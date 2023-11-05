@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_route/screens/ui_home/home/components/activity_screen.dart';
 
+import 'credit_card.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -13,13 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var category = [
-    "Sport",
-    "Party",
-    "Developers",
-    "Activity",
-    "Comunities"
-  ];
+  var category = ["Sport", "Party", "Developers", "Activity", "Comunities"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
         brightness == Brightness.dark ? Colors.white : Colors.black;
 
     return AppBar(
+      actions: [IconButton(onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MySample(),));
+      }, icon: const Icon(Icons.ads_click))],
       backgroundColor: backgroundColor,
       title: Text(
         'Green Route',
@@ -110,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(12),
             child: SvgPicture.asset(
               'assets/icons/Search.svg',
-              color: Colors.blueGrey.shade200,
+              color: Colors.blueGrey.shade500,
             ),
           ),
           suffixIcon: SizedBox(
@@ -127,7 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SvgPicture.asset('assets/icons/Filter.svg'),
+                    child: SvgPicture.asset(
+                      'assets/icons/Filter.svg',
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               ),
