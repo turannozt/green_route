@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/app_colors.dart';
-
-
 
 class MySample extends StatefulWidget {
   const MySample({super.key});
@@ -19,9 +18,9 @@ class MySampleState extends State<MySample> {
   String expiryDate = '';
   String cardHolderName = '';
   String cvvCode = '';
-  bool isCvvFocused = false;
+  bool isCvvFocused = true;
   bool useGlassMorphism = false;
-  bool useBackgroundImage = false;
+  bool useBackgroundImage = true;
   bool useFloatingAnimation = true;
   final OutlineInputBorder border = OutlineInputBorder(
     borderSide: BorderSide(
@@ -37,13 +36,13 @@ class MySampleState extends State<MySample> {
       isLightTheme ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light,
     );
     return MaterialApp(
-      title: 'Flutter Credit Card View Demo',
+      //  title: 'Flutter Credit Card View Demo',
       debugShowCheckedModeBanner: false,
       themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
       theme: ThemeData(
-        textTheme: const TextTheme(
+        textTheme: TextTheme(
           // Text style for text fields' input.
-          titleMedium: TextStyle(color: Colors.black, fontSize: 18),
+          titleMedium: GoogleFonts.openSans(color: Colors.black),
         ),
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.light,
@@ -54,16 +53,16 @@ class MySampleState extends State<MySample> {
         ),
         // Decoration theme for the text fields.
         inputDecorationTheme: InputDecorationTheme(
-          hintStyle: const TextStyle(color: Colors.black),
-          labelStyle: const TextStyle(color: Colors.black),
+          hintStyle: GoogleFonts.openSans(color: Colors.black),
+          labelStyle: GoogleFonts.openSans(color: Colors.black),
           focusedBorder: border,
           enabledBorder: border,
         ),
       ),
       darkTheme: ThemeData(
-        textTheme: const TextTheme(
+        textTheme: TextTheme(
           // Text style for text fields' input.
-          titleMedium: TextStyle(color: Colors.white, fontSize: 18),
+          titleMedium: GoogleFonts.openSans(color: Colors.white),
         ),
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.dark,
@@ -74,8 +73,8 @@ class MySampleState extends State<MySample> {
         ),
         // Decoration theme for the text fields.
         inputDecorationTheme: InputDecorationTheme(
-          hintStyle: const TextStyle(color: Colors.white),
-          labelStyle: const TextStyle(color: Colors.white),
+          hintStyle: GoogleFonts.openSans(color: Colors.white),
+          labelStyle: GoogleFonts.openSans(color: Colors.white),
           focusedBorder: border,
           enabledBorder: border,
         ),
@@ -99,13 +98,19 @@ class MySampleState extends State<MySample> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    IconButton(
-                      onPressed: () => setState(() {
-                        isLightTheme = !isLightTheme;
-                      }),
-                      icon: Icon(
-                        isLightTheme ? Icons.light_mode : Icons.dark_mode,
-                      ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
                     ),
                     CreditCardWidget(
                       enableFloatingCard: useFloatingAnimation,
@@ -114,7 +119,7 @@ class MySampleState extends State<MySample> {
                       expiryDate: expiryDate,
                       cardHolderName: cardHolderName,
                       cvvCode: cvvCode,
-                      bankName: 'Green Route',
+                      bankName: '70 TL TUTARINDA',
                       frontCardBorder: useGlassMorphism
                           ? null
                           : Border.all(color: Colors.grey),
@@ -162,7 +167,7 @@ class MySampleState extends State<MySample> {
                               expiryDate: expiryDate,
                               inputConfiguration: const InputConfiguration(
                                 cardNumberDecoration: InputDecoration(
-                                  labelText: 'Number',
+                                  labelText: 'Card Number',
                                   hintText: 'XXXX XXXX XXXX XXXX',
                                 ),
                                 expiryDateDecoration: InputDecoration(
@@ -178,67 +183,6 @@ class MySampleState extends State<MySample> {
                                 ),
                               ),
                               onCreditCardModelChange: onCreditCardModelChange,
-                            ),
-                            const SizedBox(height: 20),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  const Text('Glassmorphism'),
-                                  const Spacer(),
-                                  Switch(
-                                    value: useGlassMorphism,
-                                    inactiveTrackColor: Colors.grey,
-                                    activeColor: Colors.white,
-                                    activeTrackColor: AppColors.colorE5D1B2,
-                                    onChanged: (bool value) => setState(() {
-                                      useGlassMorphism = value;
-                                    }),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  const Text('Card Image'),
-                                  const Spacer(),
-                                  Switch(
-                                    value: useBackgroundImage,
-                                    inactiveTrackColor: Colors.grey,
-                                    activeColor: Colors.white,
-                                    activeTrackColor: AppColors.colorE5D1B2,
-                                    onChanged: (bool value) => setState(() {
-                                      useBackgroundImage = value;
-                                    }),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  const Text('Floating Card'),
-                                  const Spacer(),
-                                  Switch(
-                                    value: useFloatingAnimation,
-                                    inactiveTrackColor: Colors.grey,
-                                    activeColor: Colors.white,
-                                    activeTrackColor: AppColors.colorE5D1B2,
-                                    onChanged: (bool value) => setState(() {
-                                      useFloatingAnimation = value;
-                                    }),
-                                  ),
-                                ],
-                              ),
                             ),
                             const SizedBox(height: 20),
                             GestureDetector(
@@ -269,13 +213,11 @@ class MySampleState extends State<MySample> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 15),
                                 alignment: Alignment.center,
-                                child: const Text(
-                                  'Validate',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'halter',
-                                    fontSize: 14,
-                                    package: 'flutter_credit_card',
+                                child: Text(
+                                  'Payment',
+                                  style: GoogleFonts.openSans(
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.5,
                                   ),
                                 ),
                               ),
@@ -296,9 +238,9 @@ class MySampleState extends State<MySample> {
 
   void _onValidate() {
     if (formKey.currentState?.validate() ?? false) {
-      print('valid!');
+      debugPrint('valid!');
     } else {
-      print('invalid!');
+      debugPrint('invalid!');
     }
   }
 

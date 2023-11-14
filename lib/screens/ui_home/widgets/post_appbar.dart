@@ -14,14 +14,6 @@ class _PostAppBarWidgetState extends State<PostAppBarWidget> {
     setState(() {
       isFavorited = !isFavorited;
     });
-    final String message =
-        isFavorited ? 'Favorilere eklendi!' : 'Favorilerden kaldırıldı!';
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(seconds: 1),
-      ),
-    );
   }
 
   @override
